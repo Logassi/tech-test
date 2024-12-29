@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
+import { setCookie } from "cookies-next";
 import { sign } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
     }
 
     const payload = {
+      id: user.id,
       email,
       userName: user.userName,
     };
@@ -47,15 +49,37 @@ export async function POST(request: Request) {
     const token = sign(payload, process.env.SECRET_API_KEY as string, {
       expiresIn: "15hr",
     });
-
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         message: "Login successful",
-        user: { email: user.email, userName: user.userName },
         access_token: token,
       },
       { status: 200 }
     );
+
+    // Securely set the cookie
+    response.cookies.set("access_token", token, {
+      httpOnly: false, // This might give a problems
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 60, // 15 hours
+      path: "/",
+    });
+
+    return response;
+    // setCookie("access_token", token);
+    // const response = NextResponse.next();
+
+    // response.cookies.set("access_token", token);
+
+    // return NextResponse.json(
+    //   {
+    //     message: "Login successful",
+    //     // user: { email: user.email, userName: user.userName },
+    //     access_token: token,
+    //   },
+    //   { status: 200 }
+    // );
   } catch (error: any) {
     console.error("Error occurred during login:", error);
 

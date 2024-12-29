@@ -6,23 +6,28 @@ import IRegister from "../types";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import ErrorHandler from "@/utils/error.handler";
+import axiosInstance from "@/libs/axios";
 
 export default function RegisterForm() {
   const router = useRouter();
 
   const handleRegister = async (params: IRegister) => {
     try {
-      const response = await axios.post("/api/register", params);
+      const response = await axiosInstance.post("/api/register", params);
+
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
         text: "You can now log in with your credentials.",
-        showConfirmButton: true,
+        showConfirmButton: false,
+        timer: 4500,
       }).then(() => {
         router.push("/login"); // Redirect to login page after success
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      ErrorHandler(error);
     }
   };
 

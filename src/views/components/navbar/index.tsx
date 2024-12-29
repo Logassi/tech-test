@@ -1,14 +1,16 @@
 "use client";
+import useAuthStore from "@/stores/user.store";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function NavBar() {
   const router = useRouter();
+  const { user, clearAuth } = useAuthStore();
   // const user = {
   //   name: "",
   // };
 
-  const user = false;
+  // const user = false;
 
   return (
     <div className="flex justify-between items-center px-6 py-4 bg-gray-200 shadow-md">
@@ -26,7 +28,7 @@ export default function NavBar() {
       {user ? (
         <div className="flex items-center space-x-4">
           {/* <p className="text-gray-700">Welcome, {user.name}</p> */}
-          <p className="text-gray-700">Welcome, {user}</p>
+          <p className="text-gray-700">Welcome, {user.userName}</p>
 
           {/* Logout Button */}
           <button

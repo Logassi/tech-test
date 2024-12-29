@@ -1,31 +1,55 @@
 "use client";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import ILogin from "../types";
 import LoginSchema from "./schema";
+import ErrorHandler from "@/utils/error.handler";
+import axiosInstance from "@/libs/axios";
+import useAuthStore, { IUser } from "@/stores/user.store";
+import { getCookie, setCookie } from "cookies-next";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginForm() {
+  const { onAuthSuccess } = useAuthStore();
   const router = useRouter();
 
   const handleLogin = async (params: ILogin) => {
     try {
-      const response = await axios.post("/api/login", params);
+      const { data } = await axiosInstance.post("/api/login", params);
 
-      console.log(response);
+      console.log(data);
+      // const access_token = (getCookie("access_token") as string) || "";
+      const access_token = data.access_token;
 
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful!",
-        text: "You can now log in with your credentials.",
-        showConfirmButton: true,
-      }).then(() => {
-        router.push("/dashboard"); // Redirect to login page after success
-      });
+      console.log(`the access token : ${access_token}`);
+
+      if (access_token) {
+        console.log("masuk handle global store");
+        const user: IUser = jwtDecode(access_token);
+        console.log(`user is : ${user.userName}`);
+
+        setCookie("access_token", access_token);
+        const test = (getCookie("access_token") as string) || "no cookies";
+
+        console.log(`Cookies set : ${test}`);
+
+        onAuthSuccess(user);
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful!",
+          text: "You may take quizzes or create quizzes",
+          showConfirmButton: false,
+          timer: 3000,
+        }).then(() => {
+          router.push("/dashboard"); // Redirect to login page after success
+        });
+      }
+      // await handleCookie(onAuthSuccess);
     } catch (error) {
-      console.log(error);
+      ErrorHandler(error);
     }
   };
 
