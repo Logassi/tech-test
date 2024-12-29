@@ -34,7 +34,7 @@ export default function NavBar() {
           <button
             className="bg-indigo-700 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-full"
             onClick={() => {
-              // clearAuth();
+              clearAuth();
               router.push("/");
             }}
           >

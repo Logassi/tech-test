@@ -26,14 +26,14 @@ export default function LoginForm() {
       console.log(`the access token : ${access_token}`);
 
       if (access_token) {
-        console.log("masuk handle global store");
+        // console.log("masuk handle global store");
         const user: IUser = jwtDecode(access_token);
-        console.log(`user is : ${user.userName}`);
+        // console.log(`user is : ${user.userName}`);
 
         setCookie("access_token", access_token);
-        const test = (getCookie("access_token") as string) || "no cookies";
+        // const test = (getCookie("access_token") as string) || "no cookies";
 
-        console.log(`Cookies set : ${test}`);
+        // console.log(`Cookies set : ${test}`);
 
         onAuthSuccess(user);
 
