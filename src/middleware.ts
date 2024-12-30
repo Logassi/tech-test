@@ -84,5 +84,6 @@ export const config = {
     "/take-quiz/:path*",
     "/register/:path*",
     "/login/:path*",
+    "/",
   ],
 };

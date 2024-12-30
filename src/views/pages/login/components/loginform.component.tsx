@@ -19,11 +19,11 @@ export default function LoginForm() {
     try {
       const { data } = await axiosInstance.post("/api/login", params);
 
-      console.log(data);
+      // console.log(data);
       // const access_token = (getCookie("access_token") as string) || "";
       const access_token = data.access_token;
 
-      console.log(`the access token : ${access_token}`);
+      // console.log(`the access token : ${access_token}`);
 
       if (access_token) {
         // console.log("masuk handle global store");

@@ -21,7 +21,7 @@ export default function AuthProvider({
   const { onAuthSuccess, clearAuth } = useAuthStore();
   const access_token = (getCookie("access_token") as string) || "";
 
-  console.log(`access token : ${access_token}`);
+  // console.log(`access token : ${access_token}`);
 
   const checkLogin = async () => {
     const token: Token = jwtDecode(access_token);

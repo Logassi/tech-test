@@ -1,5 +1,10 @@
+import CreateQuizView from "@/views/pages/create-quiz";
 import React from "react";
 
 export default function CreateQuiz() {
-  return <div>CreateQuiz</div>;
+  return (
+    <div>
+      <CreateQuizView />
+    </div>
+  );
 }
