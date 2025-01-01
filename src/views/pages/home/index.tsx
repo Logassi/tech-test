@@ -8,7 +8,6 @@ export default function HomeView() {
   return (
     <div>
       <NavBar />
-      HomeView
       <HowToCreateQuizzes />
       <HowToTakeQuizzes />
       <Footer />

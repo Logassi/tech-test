@@ -30,6 +30,16 @@ export default function NavBar() {
           {/* <p className="text-gray-700">Welcome, {user.name}</p> */}
           <p className="text-gray-700">Welcome, {user.userName}</p>
 
+          {/* Dashboard Button */}
+          <button
+            className="bg-indigo-700 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-full"
+            onClick={() => {
+              router.push("/dashboard");
+            }}
+          >
+            Dashboard
+          </button>
+
           {/* Logout Button */}
           <button
             className="bg-indigo-700 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-full"
