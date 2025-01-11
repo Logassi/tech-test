@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
-import { setCookie } from "cookies-next";
 import { sign } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
@@ -18,9 +17,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // console.log(email);
+
+    const emailToLowercase = email.toLowerCase();
+
+    // console.log(emailToLowercase);
+
     // Find the user by email
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: emailToLowercase },
     });
 
     if (!user) {

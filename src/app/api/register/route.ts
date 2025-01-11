@@ -17,8 +17,10 @@ export async function POST(request: Request) {
       );
     }
 
+    const emailToLowercase = email.toLowerCase();
+
     const findUserEmail = await prisma.user.findUnique({
-      where: { email },
+      where: { email: emailToLowercase },
     });
 
     if (findUserEmail) throw new Error("Email Already Signed up");
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
     // Save the user to the database
     const user = await prisma.user.create({
       data: {
-        email,
+        email: emailToLowercase,
         userName,
         password: hashPassword,
       },
